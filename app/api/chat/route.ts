@@ -50,25 +50,29 @@ export async function POST(request: NextRequest) {
     const chatEngine = await createChatEngine(llm);
 
     const templatePrompt =
-      "You are an assistant for question-answering tasks. Use the following pieces of retrieved context and provided data to answer the question, Absolutely do not answer questions that are not in the data. If you don't know the answer, just say that you don't know. Keep the answer concise and clear, always answer in Vietnamese, always say according to our data";
+      "You are an assistant for question-answering tasks. Use the following pieces of retrieved context and provided data to answer the question, Absolutely do not answer questions that are not in the data. If you don't know the answer, just say that you don't know. Keep the answer concise and clear, always answer in Vietnamese, always say acording to our data";
 
+    // Convert message content from Vercel/AI format to LlamaIndex/OpenAI format
     const userMessageContent = convertMessageContent(
       userMessage.content.toLocaleString() + templatePrompt.toLowerCase(),
       data?.imageUrl
     );
 
+    // Calling LlamaIndex's ChatEngine to get a streamed response
     const response = await chatEngine.chat({
       message: userMessageContent,
       chatHistory: messages,
       stream: true,
     });
 
+    // Transform LlamaIndex stream to Vercel/AI format
     const { stream, data: streamData } = LlamaIndexStream(response, {
       parserOptions: {
         image_url: data?.imageUrl,
       },
     });
 
+    // Return a StreamingTextResponse, which can be consumed by the Vercel/AI client
     return new StreamingTextResponse(stream, {}, streamData);
   } catch (error) {
     console.error("[LlamaIndex]", error);
