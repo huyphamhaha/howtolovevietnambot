@@ -1,6 +1,5 @@
-// app/api/chat/route.ts
 import { StreamingTextResponse } from "ai";
-import { ChatMessage, MessageContent, TogetherLLM } from "llamaindex";
+import { ChatMessage, MessageContent, OpenAI, TogetherLLM } from "llamaindex";
 import { NextRequest, NextResponse } from "next/server";
 import { createChatEngine } from "./engine";
 import { LlamaIndexStream } from "./llamaindex-stream";
@@ -51,10 +50,10 @@ export async function POST(request: NextRequest) {
     const chatEngine = await createChatEngine(llm);
 
     const templatePrompt =
-      "You are an assistant for question-answering tasks. Use the following pieces of retrieved context and provided data to answer the question. Absolutely do not answer questions that are not in the data. If you don't know the answer, just say that you don't know. Keep the answer concise and clear, always answer in Vietnamese, always say according to our data";
+      "You are an assistant for question-answering tasks. Use the following pieces of retrieved context and provided data to answer the question, Absolutely do not answer questions that are not in the data. If you don't know the answer, just say that you don't know. Keep the answer concise and clear, always answer in Vietnamese, always say according to our data";
 
     const userMessageContent = convertMessageContent(
-      userMessage.content + templatePrompt.toLowerCase(),
+      userMessage.content.toLocaleString() + templatePrompt.toLowerCase(),
       data?.imageUrl
     );
 
