@@ -1,3 +1,5 @@
+"use client";
+
 import { useChat } from "ai/react";
 import { useMemo } from "react";
 import { insertDataIntoMessages } from "./transform";
@@ -19,9 +21,6 @@ export default function ChatSection() {
       "Content-Type": "application/json", // using JSON because of vercel/ai 2.2.26
     },
   });
-
-  console.log("API Endpoint:", process.env.NEXT_PUBLIC_CHAT_API);
-  console.log("Messages:", messages);
 
   const transformedMessages = useMemo(() => {
     return insertDataIntoMessages(messages, data);
