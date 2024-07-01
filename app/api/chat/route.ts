@@ -43,8 +43,9 @@ export async function POST(request: NextRequest) {
 
     const llm = new TogetherLLM({
       model: "meta-llama/Llama-3-8b-chat-hf",
-      maxTokens: 1024,
+      maxTokens: 10000,
       apiKey: process.env.TOGETHER_API_KEY,
+      temperature: 0.4,
     });
 
     const chatEngine = await createChatEngine(llm);
