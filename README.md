@@ -1,5 +1,3 @@
-# Open source AI RAG Chatbot
-
 This is a [LlamaIndex](https://www.llamaindex.ai/) and [Together.ai](https://www.together.ai/) RAG chatbot using [Next.js](https://nextjs.org/) bootstrapped with [`create-llama`](https://github.com/run-llama/LlamaIndexTS/tree/main/packages/create-llama).
 
 It's powered by Llama Index, Mixtral (through Together AI Inference) and Together Embeddings. It'll embed the PDF file in `data`, generate embeddings stored locally, then give you a RAG chatbot to ask questions to.
