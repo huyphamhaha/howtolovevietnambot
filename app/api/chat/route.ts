@@ -43,19 +43,18 @@ export async function POST(request: NextRequest) {
 
     const llm = new TogetherLLM({
       model: "meta-llama/Llama-3-8b-chat-hf",
-      maxTokens: 10000,
+      maxTokens: 1024,
       apiKey: process.env.TOGETHER_API_KEY,
-      temperature: 0.4,
     });
 
     const chatEngine = await createChatEngine(llm);
 
-    const templatePrompt =
-      "You are an assistant for question-answering tasks. Use the following pieces of retrieved context and provided data to answer the question, Absolutely do not answer questions that are not in the data. If you don't know the answer, just say that you don't know. Keep the answer concise and clear, always answer in Vietnamese, always say acording to our data";
+    // const templatePrompt =
+    //   "You are an assistant for question-answering tasks. Use the following pieces of retrieved context and provided data to answer the question, Absolutely do not answer questions that are not in the data. If you don't know the answer, just say that you don't know. Keep the answer concise and clear, always answer in Vietnamese, always say acording to our data";
 
     // Convert message content from Vercel/AI format to LlamaIndex/OpenAI format
     const userMessageContent = convertMessageContent(
-      userMessage.content.toLocaleString() + templatePrompt.toLowerCase(),
+      userMessage.content.toLocaleString(),
       data?.imageUrl
     );
 
